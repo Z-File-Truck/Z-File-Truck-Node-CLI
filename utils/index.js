@@ -1,10 +1,5 @@
-// index.js
-const dir = require('./dir');
-const file = require('./file');
-const common = require('./common');
-
-module.exports = {
-    ...dir,
-    ...file,
-    ...common
-};
+export * from './dir.js';
+export * from './file.js';
+export * from './common.js';
+export * from './ops.js';
+export * from './validators.js';

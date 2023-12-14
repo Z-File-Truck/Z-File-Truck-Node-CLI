@@ -1,13 +1,11 @@
-const { traverseDirectory } = require("./common");
-const { copyFile, cutFile } = require("./file");
+import fs from 'fs';
+import path from 'path';
 
-function copyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false) {
-    traverseDirectory(sourcePath, destinationPath, fileTypes, recursive, {action: { actionFunc: copyFile, actionOptions: {postDelete} }, preservePath});
-}
-
-function cutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false) {
-    traverseDirectory(sourcePath, destinationPath, fileTypes, recursive, {action: { actionFunc: cutFile }, preservePath});
+export function createParentDir(filePath) {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
 }
 
 
-module.exports ={ copyFiles, cutFiles };
+
+
+export default { createParentDir };

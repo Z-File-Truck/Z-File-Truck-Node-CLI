@@ -1,32 +1,29 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const isPreservePath = (options) => options && options.preservePath;
+export function collectFiles(sourcePath, destinationPath = '', fileTypes, recursive, preservePath) {
+    let filesList = [];
 
-function traverseDirectory(sourcePath, destinationPath, fileTypes, recursive, options = {}) {
-    if (!fs.existsSync(destinationPath)) {
-        fs.mkdirSync(destinationPath, { recursive: true });
+    function traverseDirectory(currentPath, currentDestination) {
+        const files = fs.readdirSync(currentPath);
+
+        files.forEach(file => {
+            const fullPath = path.join(currentPath, file);
+            const stat = fs.statSync(fullPath);
+
+            if (stat.isDirectory() && recursive) {
+                const newDestination = preservePath ? path.join(currentDestination, file) : currentDestination;
+                traverseDirectory(fullPath, newDestination);
+            } else if (stat.isFile() && fileTypes.includes(path.extname(file))) {
+                const relativePath = preservePath ? path.relative(sourcePath, fullPath) : path.basename(fullPath);
+                const destFilePath = path.join(destinationPath, relativePath);
+                filesList.push({ srcFilePath: fullPath, destFilePath: destFilePath });
+            }
+        });
     }
 
-    const files = fs.readdirSync(sourcePath);
-    files.forEach(file => {
-        const srcFilePath = path.join(sourcePath, file);
-        const stat = fs.statSync(srcFilePath);
-
-        if (stat.isDirectory() && recursive) {
-            // If recursive, continue traversing
-            const newDestinationPath = isPreservePath(options) ? path.join(destinationPath, file) : destinationPath;
-            traverseDirectory(srcFilePath, newDestinationPath, fileTypes, recursive, options);
-        } else if (stat.isFile() && fileTypes.includes(path.extname(file)) && options.action) {
-            // Construct the destination path based on the preservePath flag
-            let actionFunc = options.action.actionFunc;
-            let actionOptions = options.action.actionOptions;
-            const destFilePath = isPreservePath(options) ? path.join(destinationPath, path.relative(sourcePath, srcFilePath)) : path.join(destinationPath, path.basename(file));
-            actionFunc(srcFilePath, destFilePath, actionOptions);
-        }
-    });
+    traverseDirectory(sourcePath, destinationPath);
+    return filesList;
 }
 
-
-
-module.exports =  { traverseDirectory };
+export default { collectFiles };

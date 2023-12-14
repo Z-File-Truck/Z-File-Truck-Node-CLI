@@ -1,14 +1,15 @@
-const fs = require('fs');
+import fs from 'fs';
 
-function cutFile(src, dest, options) {
+export function cutFile(src, dest) {
     fs.renameSync(src, dest);
 }
 
-function copyFile(src, dest, options) {
+export function copyFile(src, dest) {
     fs.copyFileSync(src, dest);
-    if (options && options.postDelete) {
-        fs.unlinkSync(src);
-    }
 }
 
-module.exports =  { cutFile, copyFile }
+export function deleteFile(src) {
+    fs.unlinkSync(src);
+}
+
+export default { cutFile, copyFile, deleteFile }

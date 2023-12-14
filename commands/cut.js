@@ -1,9 +1,14 @@
-const { cutFiles } = require('../utils');
+import { cutFiles, validateFileTypes, validatePaths } from '../utils/index.js';
 
-function handleCutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false) {
-    cutFiles(sourcePath, destinationPath, fileTypes, recursive, {preservePath});
+export function handleCutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false) {
+    try {
+        validatePaths(sourcePath, destinationPath);
+        validateFileTypes(fileTypes);
+        cutFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 
-
-module.exports =  handleCutFiles;
+export default handleCutFiles;

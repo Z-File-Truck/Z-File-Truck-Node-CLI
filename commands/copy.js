@@ -1,7 +1,13 @@
-const { copyFiles } = require('../utils');
+import { copyFiles, validatePaths, validateFileTypes } from '../utils/index.js';
 
-function handleCopyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false) {
-    copyFiles(sourcePath, destinationPath, fileTypes, recursive, postDelete, preservePath);
+export function handleCopyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false) {
+    try {
+        validatePaths(sourcePath, destinationPath);
+        validateFileTypes(fileTypes);
+        copyFiles(sourcePath, destinationPath, fileTypes, recursive, postDelete, preservePath);
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
-module.exports =  handleCopyFiles;
+export default handleCopyFiles;
