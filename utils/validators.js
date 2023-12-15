@@ -13,10 +13,13 @@ export function validatePaths(source, destination) {
     }
 }
 
-export function validateFileTypes(fileTypes) {
+export function validateFileTypes(fileTypes, quickFileTypes = {}) {
     if (fileTypes && !fileTypes.every(type => type.startsWith('.'))) {
-        throw new Error('File types must start with a dot "."');
+        if(fileTypes.length === 1 && Object.keys(quickFileTypes).includes(fileTypes[0])){
+            return quickFileTypes[fileTypes[0]].val;
+        }else throw new Error(`File types must start with a dot "." or use one of the quick file types ${Object.keys(quickFileTypes).map(type => `"${type}"`).join(', ')}`);
     }
+    return fileTypes;
 }
 
 export default { validatePaths, validateFileTypes };

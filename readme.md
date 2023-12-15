@@ -49,7 +49,7 @@ To copy files, use the following command format:
 
 ```bash
 
-node  app.js  copy  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preservePath --postDelete
+node  app.js  copy  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preserve-path --post-delete
 
 ```
 
@@ -63,7 +63,7 @@ To cut (move) files, use the following command format:
 
 ```bash
 
-node  app.js  cut  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preservePath
+node  app.js  cut  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preserve-path
 
 ```
 
