@@ -1,7 +1,7 @@
 
-# Z-file-truck-cmd
+# Z-File-Truck-Node-CLI
 
-Z-file-truck-cmd is a versatile Node.js command-line tool for file operations, enabling users to efficiently copy, cut, and manage files.
+Z-File-Truck-Node-CLI is a versatile Node.js command-line tool for file operations, enabling users to efficiently copy, cut, and manage files.
 
   
 
@@ -17,19 +17,19 @@ Z-file-truck-cmd is a versatile Node.js command-line tool for file operations, e
 
 ## Requirements 
 
-  Before using Z-file-truck-cmd, ensure you have the following installed: - Node.js (v12 or later recommended): [Download & Install Node.js](https://nodejs.org/en/download/) - npm (usually comes with Node.js)
+  Before using Z-File-Truck-Node-CLI, ensure you have the following installed: - Node.js (v12 or later recommended): [Download & Install Node.js](https://nodejs.org/en/download/) - npm (usually comes with Node.js)
   
 
 ## Getting Started
 
-To use Z-file-truck-cmd, clone the repository to your local machine:
+To use Z-File-Truck-Node-CLI, clone the repository to your local machine:
 
 
 ```bash
 
-git  clone  https://github.com/your-username/z-file-truck-cmd.git
+git  clone  https://github.com/Z-File-Truck/Z-File-Truck-Node-CLI.git
 
-cd  z-file-truck-cmd
+cd  Z-File-Truck-Node-CLI
 
 ```
 
@@ -49,7 +49,7 @@ To copy files, use the following command format:
 
 ```bash
 
-node  app.js  copy  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive
+node  app.js  copy  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preservePath --postDelete
 
 ```
 
@@ -63,7 +63,7 @@ To cut (move) files, use the following command format:
 
 ```bash
 
-node  app.js  cut  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive
+node  app.js  cut  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preservePath
 
 ```
 
@@ -78,7 +78,7 @@ This will move .jpg and .txt files from source_path to destination_path recursiv
   
 
 
-We welcome contributions to the Z-file-truck-cmd project. If you're interested in helping out, please follow these steps:
+We welcome contributions to the Z-File-Truck-Node-CLI project. If you're interested in helping out, please follow these steps:
 
   
 
@@ -90,7 +90,7 @@ We welcome contributions to the Z-file-truck-cmd project. If you're interested i
 
 4. **Test the Changes:** Ensure that your changes are working as expected.
 
-5. **Submit a Pull Request:** Open a pull request from your branch to the main Z-file-truck-cmd repository.
+5. **Submit a Pull Request:** Open a pull request from your branch to the main Z-File-Truck-Node-CLI repository.
 
   
 
