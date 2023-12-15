@@ -1,14 +1,14 @@
 {
-  "name": "z-file-truck-cmd",
+  "name": "z-file-truck-node-cli",
   "version": "1.0.0",
-  "description": "Z-file-truck-cmd is an innovative Node.js command-line tool, expertly designed for efficient and effective file management. Embodying the dynamism of a 'file truck', this application specializes in transporting (copying and cutting) files with precision and flexibility. It caters to a variety of needs, including the handling of specific file types (such as .jpg, .txt, .pdf) and executing operations in a recursive manner through subdirectories. One of its standout features is the optional deletion of source files post-operation, streamlining file transfers and management tasks. Z-file-truck-cmd is the go-to solution for developers, system administrators, and digital professionals seeking a robust, command-line-based approach to reorganizing and maintaining file systems. It combines simplicity with power, offering an intuitive interface for managing complex file operations effortlessly.",
+  "description": "Z-file-truck-node-cli is an innovative Node.js command-line tool, expertly designed for efficient and effective file management. Embodying the dynamism of a 'file truck', this application specializes in transporting (copying and cutting) files with precision and flexibility. It caters to a variety of needs, including the handling of specific file types (such as .jpg, .txt, .pdf) and executing operations in a recursive manner through subdirectories. One of its standout features is the optional deletion of source files post-operation, streamlining file transfers and management tasks. Z-file-truck-node-cli is the go-to solution for developers, system administrators, and digital professionals seeking a robust, command-line-based approach to reorganizing and maintaining file systems. It combines simplicity with power, offering an intuitive interface for managing complex file operations effortlessly.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmed-zhran"
+    "url": "https://github.com/Z-File-Truck/Z-File-Truck-Node-CLI.git"
   },
   "author": {
     "name": "Ahmed Zhra",
