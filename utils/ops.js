@@ -2,29 +2,35 @@ import { copyFile, deleteFile, cutFile } from './file.js';
 import { collectFiles } from './common.js';
 import { createParentDir } from './dir.js';
 import ora from 'ora';
+// import { Spinner } from "@topcli/spinner";
 
-export function copyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false) {
-    const filesToCopy = collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath);
+export async function copyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false) {
+    const filesToCopy = await collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath);
     const totalFiles = filesToCopy.length;
     let doneFiles = 0;
 
-    const spinner = ora(`Copying files... 0%`).start();
+    const spinner = ora(`Copying files...`).start();
 
-    filesToCopy.forEach(({ srcFilePath, destFilePath }) => {
-        // Ensure the destination directory exists
-        
-        createParentDir(destFilePath);
-        copyFile(srcFilePath, destFilePath);
-        if (postDelete) {
-            deleteFile(srcFilePath);
+    for (let { srcFilePath, destFilePath } of filesToCopy) {
+        try {
+            await createParentDir(destFilePath);
+            await copyFile(srcFilePath, destFilePath);
+            if (postDelete) {
+                await deleteFile(srcFilePath);
+            }
+        } catch (err) {
+            spinner.fail(`Error in processing file: ${srcFilePath}`);
+            spinner.start(); // Restart the spinner for continuing with the next file
         }
 
         doneFiles++;
-        spinner.text = `Copying files... ${((doneFiles / totalFiles) * 100).toFixed(2)}%`;
-    });
+        await new Promise(resolve => setImmediate(() => {
+            spinner.text = `Copying files... ${((doneFiles / totalFiles) * 100).toFixed(2)}% completed.`;
+            resolve();
+        }));
+    }
 
-    spinner.stop();
-    console.log(`Copy operation completed. ${doneFiles}/${totalFiles} files copied.`);
+    spinner.succeed(`Copy operation completed. ${doneFiles}/${totalFiles} files copied.`);
 }
 
 export function cutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false) {

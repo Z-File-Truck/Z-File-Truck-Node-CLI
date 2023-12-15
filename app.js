@@ -13,8 +13,8 @@ const argv = yargs(hideBin(process.argv))
         recursive: { description: 'Whether to cut files recursively within the underlying nested folders in the source', alias: 'r', type: 'boolean', default: false },
         'post-delete': { description: 'Delete source files after copying', alias: 'pd', type: 'boolean', default: false },
         'preserve-path': { description: 'Preserve the directory structure in the destination as it was in the source', alias: 'pp', type: 'boolean', default: false}
-    }, (argv) => {
-        handleCopyFiles(argv.source, argv.destination, argv['file-types'], argv.recursive, argv['post-delete'], argv['preserve-path']);
+    }, async(argv) => {
+       await handleCopyFiles(argv.source, argv.destination, argv['file-types'], argv.recursive, argv['post-delete'], argv['preserve-path']);
     })
     .command('cut', 'Cut files', {
         source: { description: 'The source directory', alias: 's', type: 'string', demandOption: true, requiresArg: true },

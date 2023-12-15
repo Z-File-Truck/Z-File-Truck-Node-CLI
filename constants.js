@@ -32,8 +32,8 @@ const img = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg', 
 
 // All Known Image Formats
 const xImg = [
-    ...img, '.jfif', '.pjpeg', '.pjp',
-    '.ai', '.eps', '.psd', '.indd', '.pdf', '.raw', '.svgz',
+    ...img, '.jfif', '.pjpeg', '.pjp', // '.pdf',
+    '.ai', '.eps', '.psd', '.indd', '.raw', '.svgz',
     '.arw', '.cr2', '.nrw', '.k25', '.bmp', '.crw', '.dcr', '.dng', '.erf', '.gif', '.ico', '.jfif', '.jpg', '.jpeg', '.mos', '.mrw',
     '.nef', '.orf', '.pef', '.png', '.ppm', '.pbm', '.pgm', '.pnm', '.raf', '.rw2', '.rwl', '.srw', '.tif', '.tiff', '.webp', '.x3f'
 ];
