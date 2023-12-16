@@ -1,57 +1,62 @@
-import { copyFile, deleteFile, cutFile } from './file.js';
-import { collectFiles } from './common.js';
-import { createParentDir } from './dir.js';
-import ora from 'ora';
-// import { Spinner } from "@topcli/spinner";
 
-export async function copyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false) {
-    const filesToCopy = await collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath);
+import CONSTANTS from '../constants.js';
+import { collectFiles } from './common.js';
+import { handleCopyOpWithTimeOut, handleCutOpWithTimeOut } from './handlers.js';
+import ora from 'ora';
+const spinner = ora();
+
+export async function copyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false, fileLimit = CONSTANTS.DEFAULT_FILE_LIMIT) {
+    const filesToCopy = await collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath, fileLimit);
     const totalFiles = filesToCopy.length;
     let doneFiles = 0;
+    spinner.start('Copying files...');
+    // Regularly update the spinner
+    const interval = setInterval(() => {
+        spinner.text = `Copying files... ${((doneFiles / totalFiles) * 100).toFixed(2)}%.`;
+    }, 500);
 
-    const spinner = ora(`Copying files...`).start();
-
-    for (let { srcFilePath, destFilePath } of filesToCopy) {
-        try {
-            await createParentDir(destFilePath);
-            await copyFile(srcFilePath, destFilePath);
-            if (postDelete) {
-                await deleteFile(srcFilePath);
-            }
-        } catch (err) {
-            spinner.fail(`Error in processing file: ${srcFilePath}`);
-            spinner.start(); // Restart the spinner for continuing with the next file
-        }
-
-        doneFiles++;
-        await new Promise(resolve => setImmediate(() => {
-            spinner.text = `Copying files... ${((doneFiles / totalFiles) * 100).toFixed(2)}% completed.`;
-            resolve();
-        }));
+    // Process files in chunks to control concurrency
+    const concurrencyLimit = CONSTANTS.DEFAULT_CONCURRENCY_LIMIT;
+    for (let i = 0; i < filesToCopy.length; i += concurrencyLimit) {
+        const chunk = filesToCopy.slice(i, i + concurrencyLimit);
+        const promises = chunk.map(file => handleCopyOpWithTimeOut(file, postDelete, (err) => {
+            spinner.fail(`Error in copying file: ${file.srcFilePath} ::: ${err}`);
+            spinner.start();
+        }).then(() =>  doneFiles++).catch((err) => console.log('Error in chuck promise', err)));
+        await Promise.allSettled(promises);
     }
 
+    clearInterval(interval); // Clear the interval once all files are processed
+
     spinner.succeed(`Copy operation completed. ${doneFiles}/${totalFiles} files copied.`);
+    spinner.stop();
 }
 
-export function cutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false) {
-    const filesToCut = collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath);
+export async function cutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false, fileLimit = CONSTANTS.DEFAULT_FILE_LIMIT) {
+    const filesToCut = await collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath, fileLimit);
     const totalFiles = filesToCut.length;
     let doneFiles = 0;
+    spinner.start('Cuting files...');
+    // Regularly update the spinner
+    const interval = setInterval(() => {
+        spinner.text = `Cuting files... ${((doneFiles / totalFiles) * 100).toFixed(2)}%.`;
+    }, 1000);
 
-    const spinner = ora(`Cutting files... 0%`).start();
+    // Process files in chunks to control concurrency
+    const concurrencyLimit = CONSTANTS.DEFAULT_CONCURRENCY_LIMIT;
+    for (let i = 0; i < filesToCut.length; i += concurrencyLimit) {
+        const chunk = filesToCut.slice(i, i + concurrencyLimit);
+        const promises = chunk.map(file => handleCutOpWithTimeOut(file, (err) => {
+            spinner.fail(`Error in cutting file: ${file.srcFilePath} ::: ${err}`);
+            spinner.start();
+        }).then(() =>  doneFiles++).catch((err) => console.log('Error in chuck promise', err)));
+        await Promise.allSettled(promises);
+    }
 
-    filesToCut.forEach(({ srcFilePath, destFilePath }) => {
-        // Ensure the destination directory exists
-        
-        createParentDir(destFilePath);
-        cutFile(srcFilePath, destFilePath);
+    clearInterval(interval); // Clear the interval once all files are processed
 
-        doneFiles++;
-        spinner.text = `Cutting files... ${doneFiles}/${totalFiles} ${((doneFiles / totalFiles) * 100).toFixed(2)}%`;
-    });
-
+    spinner.succeed(`Cut operation completed. ${doneFiles}/${totalFiles} files cut.`);
     spinner.stop();
-    console.log(`Cut operation completed. ${doneFiles}/${totalFiles} files cut.`);
 }
 
 export default { copyFiles, cutFiles };

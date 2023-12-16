@@ -39,7 +39,7 @@ const xImg = [
 ];
 
 // Popular Audio Formats
-const aud = ['.mp3', '.wav', '.ogg', '.flac', '.aac'];
+const aud = ['.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a'];
 
 // All Known Audio Formats
 const xAud = [
@@ -53,6 +53,8 @@ const xAud = [
 const allFormats = ['*'];
 
 const CONSTANTS = {
+    DEFAULT_FILE_LIMIT: 1000,
+    DEFAULT_CONCURRENCY_LIMIT: 5,
     quickFileTypes: {
         'all': {
             val: ['*'],
