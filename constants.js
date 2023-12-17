@@ -30,6 +30,17 @@ const xvid = [
 // Popular Image Formats
 const img = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg', '.ico'];
 
+// Popular Compressed Formats
+const compressed = [
+    '.zip',
+    '.rar',
+    '.7z',
+    '.tar.gz',
+    '.tar',
+    '.gz',
+    // Add more popular compressed file types as needed
+];
+
 // All Known Image Formats
 const xImg = [
     ...img, '.jfif', '.pjpeg', '.pjp', // '.pdf',
@@ -53,9 +64,11 @@ const xAud = [
 const allFormats = ['*'];
 
 const CONSTANTS = {
-    DEFAULT_FILE_LIMIT: 1000,
+    DEFAULT_FILES_COUNT_LIMIT: 1000,
+    MERGABYTES_PER_SECOND: 1,
+    DEFAULT_MB_SIZE_LIMIT: 500,
     DEFAULT_CONCURRENCY_LIMIT: 5,
-    quickFileTypes: {
+    QUICK_FILE_TYPES: {
         'all': {
             val: ['*'],
             desc: 'All Files'
@@ -103,6 +116,10 @@ const CONSTANTS = {
         'xaud': {
             val: xAud,
             desc: 'All Audio Files'
+        },
+        'compressed': {
+            val: compressed,
+            desc: 'All Popular Compressed Files'
         }
     }
 }

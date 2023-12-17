@@ -27,4 +27,14 @@ export async function deleteFile(src) {
     }
 }
 
-export default { cutFile, copyFile, deleteFile }
+export async function fileExists(filePath) {
+    try {
+        await fs.access(filePath, fs.constants.F_OK);
+        return true;
+    } catch (err) {
+        // The file doesn't exist or there was an error accessing it
+        return false;
+    }
+}
+
+export default { cutFile, copyFile, deleteFile, fileExists }

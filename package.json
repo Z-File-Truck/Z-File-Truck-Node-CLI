@@ -17,6 +17,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "file-type": "^18.7.0",
     "ora": "^7.0.1",
     "yargs": "^17.7.2"
   },
