@@ -1,42 +1,19 @@
-import fs from 'fs/promises';
-import * as orgfs from 'fs';
-import path from 'path';
-import ora from 'ora';
-import CONSTANTS from '../constants.js';
-import { MBToBytes, calculateFilesSizeInMB, timeoutPromise } from './helpers.js';
-import * as fileType from 'file-type';
-// old recursive function
-// export function traverseDirectory(sourcePath, currentPath, destinationPath, currentDestination, filesList, allowedFileTypes, recursive, preservePath, FileFoundCallback) {
-//     const files = fs.readdirSync(currentPath);
-
-//     files.forEach(file => {
-//         const curSrcFileFullPath = path.join(currentPath, file);
-//         const stat = fs.statSync(curSrcFileFullPath);
-
-//         if (stat.isDirectory() && recursive) {
-//             const newDestination = preservePath ? path.join(currentDestination, file) : currentDestination;
-//             traverseDirectory(sourcePath, curSrcFileFullPath, destinationPath, newDestination, filesList, allowedFileTypes, recursive, preservePath);
-//         } else if (stat.isFile() && (allowedFileTypes.includes(path.extname(file)) || allowedFileTypes.includes('*'))) {
-//             const relativePath = preservePath ? path.relative(sourcePath, curSrcFileFullPath) : path.basename(curSrcFileFullPath);
-//             const destFilePath = path.join(destinationPath, relativePath);
-            
-//             filesList.push({ srcFilePath: curSrcFileFullPath, destFilePath: destFilePath });
-//             if(FileFoundCallback)
-//                 FileFoundCallback(filesList);
-//         }
-//     });
-// }
-
-
+const fs = require('fs').promises;
+const orgfs = require('fs');
+const path = require('path');
+const CONSTANTS = require('../constants.js');
+const { MBToBytes, calculateFilesSizeInMB, timeoutPromise } = require('./helpers.js');
+let fileType;//= require('file-type');
 
 async function getFileTypes(filePath) {
+    if(!fileType) fileType = await import('file-type');
     let fileInfo =  await fileType.fileTypeFromFile(filePath);
     let fileType1 = fileInfo ? `.${fileInfo.ext}` : '';
     let fileType2 = path.extname(filePath);
     return [fileType1, fileType2].filter(Boolean).map(t => t.toLowerCase());
 }
 
-export async function traverseDirectory(sourcePath, currentPath, destinationPath, currentDestination, filesList, allowedFileTypes, recursive, preservePath, FileFoundCallback, FailCallback, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
+async function traverseDirectory(sourcePath, currentPath, destinationPath, currentDestination, filesList, allowedFileTypes, recursive, preservePath, FileFoundCallback, FailCallback, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
     const stack = [currentPath];
     let curTotalSize = filesList.reduce((acc, file) => acc + file.details.size, 0);
     while (stack.length > 0) {
@@ -82,9 +59,10 @@ export async function traverseDirectory(sourcePath, currentPath, destinationPath
     }
 }
 
-export async function collectFiles(sourcePath, destinationPath = '', allowedFileTypes, recursive, preservePath, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
+async function collectFiles(sourcePath, destinationPath = '', allowedFileTypes, recursive, preservePath, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
     let filesList = [];
-    const spinner = ora('Reading Files...').start();
+    const { default: Ora } = await import('ora');
+    const spinner = Ora('Reading Files...').start();
 
     await traverseDirectory(
         sourcePath, sourcePath, destinationPath, destinationPath, filesList, allowedFileTypes, recursive, preservePath, 
@@ -104,4 +82,4 @@ export async function collectFiles(sourcePath, destinationPath = '', allowedFile
     return filesList;
 }
 
-export default { collectFiles, traverseDirectory };
+module.exports = { collectFiles, traverseDirectory };

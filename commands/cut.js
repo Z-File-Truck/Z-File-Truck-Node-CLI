@@ -1,17 +1,17 @@
-import CONSTANTS from '../constants.js';
-import { cutFiles, validateFileTypes, validatePaths } from '../utils/index.js';
+const CONSTANTS = require('../constants.js');
+const { cutFiles, validateFileTypes, validatePaths } = require('../utils');
 
-export async function handleCutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
+async function handleCutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
     try {
         validatePaths(sourcePath, destinationPath);
         fileTypes = validateFileTypes(fileTypes);
         await cutFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath, fileCntLimit, fileSizeLimit);
         process.exit(0);
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
         process.exit(1);
     }
 }
 
 
-export default handleCutFiles;
+module.exports = handleCutFiles;

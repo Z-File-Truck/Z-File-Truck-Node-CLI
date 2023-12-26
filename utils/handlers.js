@@ -1,9 +1,11 @@
-import { createParentDir } from './dir.js';
-import { copyFile, deleteFile, cutFile, fileExists } from './file.js';
-import { timeoutPromise } from './helpers.js';
-import CONSTANTS from '../constants.js';
+const { createParentDir } = require('./dir.js');
+const { copyFile, deleteFile, cutFile, fileExists } = require('./file.js');
+const { timeoutPromise } = require('./helpers.js');
+const CONSTANTS = require('../constants.js');
 
-export async function handleCleanUp(file) {
+
+
+async function handleCleanUp(file) {
     try {
         let fileExistsInSrc = await fileExists(file.srcFilePath);
         let fileExistsInDest = await fileExists(file.destFilePath);
@@ -20,7 +22,7 @@ export async function handleCleanUp(file) {
     }
 }
 
-export async function handleCopyOperation(file, postDelete, progressHandler) {
+async function handleCopyOperation(file, postDelete, progressHandler) {
     let successOps = [];
     try {
         await createParentDir(file.destFilePath).then(() => successOps.push('createParentDir'));
@@ -36,7 +38,7 @@ export async function handleCopyOperation(file, postDelete, progressHandler) {
     }
 }
 
-export async function handleCutOperation(file, postDelete, progressHandler) {
+async function handleCutOperation(file, postDelete, progressHandler) {
     let successOps = [];
     try {
         await createParentDir(file.destFilePath).then(() => successOps.push('createParentDir'));
@@ -49,4 +51,4 @@ export async function handleCutOperation(file, postDelete, progressHandler) {
     }
 }
 
-export default { handleCopyOperation, handleCutOperation };
+module.exports = { handleCopyOperation, handleCutOperation };

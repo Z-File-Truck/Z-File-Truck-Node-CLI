@@ -1,12 +1,15 @@
 
-import CONSTANTS from '../constants.js';
-import { collectFiles } from './common.js';
-import { handleCopyOperation, handleCutOperation } from './handlers.js';
-import ora from 'ora';
-import { calculateFilesSizeInMB, calculatePercentage } from './helpers.js';
-const spinner = ora();
+const CONSTANTS = require('../constants.js');
+const { collectFiles } = require('./common.js');
+const { handleCopyOperation, handleCutOperation } = require('./handlers.js');
+// let ora; //= require('ora');
+const { calculateFilesSizeInMB, calculatePercentage } = require('./helpers.js');
 
-export async function copyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
+// const spinner = ora();
+
+async function copyFiles(sourcePath, destinationPath, fileTypes, recursive = false, postDelete = false, preservePath = false, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT) {
+     const { default: Ora } = await import('ora');
+    const spinner = Ora();
     const filesToCopy = await collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath, fileCntLimit, fileSizeLimit);
     const totalFilesCnt = filesToCopy.length;
     const totalFilesSize = calculateFilesSizeInMB(filesToCopy);
@@ -28,7 +31,7 @@ export async function copyFiles(sourcePath, destinationPath, fileTypes, recursiv
             if(data.success){
                 successFilesCnt++;
             }else {
-                spinner.fail(`Error in copying file: ${file.srcFilePath} ::: ${error}`);
+                spinner.fail(`Error in copying file: ${file.srcFilePath} ::: ${data.error}`);
                 spinner.start();
             }
         }));
@@ -41,7 +44,9 @@ export async function copyFiles(sourcePath, destinationPath, fileTypes, recursiv
     spinner.stop();
 }
 
-export async function cutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT, postDelete = false) {
+async function cutFiles(sourcePath, destinationPath, fileTypes, recursive = false, preservePath = false, fileCntLimit = CONSTANTS.DEFAULT_FILES_COUNT_LIMIT, fileSizeLimit = CONSTANTS.DEFAULT_MB_SIZE_LIMIT, postDelete = false) {
+     const { default: Ora } = await import('ora');
+    const spinner = Ora();
     const filesToCut = await collectFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath, fileCntLimit, fileSizeLimit);
     const totalFilesCnt = filesToCut.length;
     let successFilesCnt = 0;
@@ -72,4 +77,4 @@ export async function cutFiles(sourcePath, destinationPath, fileTypes, recursive
     spinner.stop();
 }
 
-export default { copyFiles, cutFiles };
+module.exports = { copyFiles, cutFiles };

@@ -23,7 +23,7 @@ const xvid = [
   '.eye', '.flc', '.fli', '.flx', '.flic', '.fli', '.flx', '.gl', '.grasp', '.gvi', '.m1v',
   '.m2t', '.mj2', '.mjp2', '.mov', '.mp2v', '.mpe', '.mpv2', '.m2v', '.mpv', '.nsf', '.nut',
   '.nsv', '.pva', '.qt', '.r3d', '.rm', '.rmvb', '.roq', '.rp', '.smk', '.swf', '.svi', '.trp',
-  '.ts', '.tts', '.vdo', '.vfw', '.vid', '.viv', '.vivo', '.vob', '.vp6', '.vp7', '.wmx', '.wm',
+  '.tts', '.vdo', '.vfw', '.vid', '.viv', '.vivo', '.vob', '.vp6', '.vp7', '.wmx', '.wm',
   '.wmp', '.wvx', '.yuv'
 ];
 
@@ -70,7 +70,7 @@ const CONSTANTS = {
     DEFAULT_CONCURRENCY_LIMIT: 5,
     QUICK_FILE_TYPES: {
         'all': {
-            val: ['*'],
+            val: allFormats,
             desc: 'All Files'
         },
         'docs': {
@@ -124,4 +124,4 @@ const CONSTANTS = {
     }
 }
 
-export default CONSTANTS;
+module.exports = CONSTANTS;
