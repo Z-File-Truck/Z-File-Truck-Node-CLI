@@ -17,7 +17,7 @@ Z-File-Truck-Node-CLI is a versatile Node.js command-line tool for file operatio
 
 ## Requirements 
 
-  Before using Z-File-Truck-Node-CLI, ensure you have the following installed: - Node.js (v12 or later recommended): [Download & Install Node.js](https://nodejs.org/en/download/) - npm (usually comes with Node.js)
+  Before using Z-File-Truck-Node-CLI, ensure you have the following installed: - Node.js (v18.19.0 or later recommended): [Download & Install Node.js](https://nodejs.org/en/download/) - npm (usually comes with Node.js)
   
 
 ## Getting Started
@@ -41,21 +41,24 @@ cd  Z-File-Truck-Node-CLI
 
 The tool provides two main functionalities: copying and cutting files.
 
-  
 
 #### Copying Files
 
 To copy files, use the following command format:
 
 ```bash
-
-node  app.js  copy  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preserve-path --post-delete
-
+node index.js copy --source "source_path" --destination "destination_path" --file-types .jpg .txt --recursive --preserve-path --post-delete --file-cnt-limit 100 --file-size-limit 200
 ```
+This will copy .jpg and .txt files from source_path to destination_path recursively with deleting the files from source post-copying and preserving the folder path structure which was in the source in the destination, with setting the files limit to 100 and the maxmium size to 500mb
 
-This will copy .jpg and .txt files from source_path to destination_path recursively.
-
-  
+- `--source, -s`: The path to the source directory (required).
+- `--destination, -d`: The path to the destination directory (required).
+- `--file-types, -f`: Specify file types to include (e.g., .jpg, .txt) (required).
+- `--recursive, -r`: Recursively copy files from subdirectories (default: false).
+- `--post-delete, -pd`: Delete source files after copying (default: false).
+- `--preserve-path, -pp`: Maintain the same directory structure in the destination (default: false).
+- `--file-cnt-limit, -cl`: Limit the number of files to operate on (default: 1000).
+- `--file-size-limit, -sl`: Limit the total size of files to operate in MB (default: 500).
 
 #### Cutting Files
 
@@ -63,14 +66,32 @@ To cut (move) files, use the following command format:
 
 ```bash
 
-node  app.js  cut  --source  "source_path"  --destination  "destination_path"  --fileTypes  .jpg  .txt  --recursive --preserve-path
+node index.js cut --source "source_path" --destination "destination_path" --file-types .jpg .txt --recursive --preserve-path --file-cnt-limit 100 --file-size-limit 100
+
 
 ```
 
-This will move .jpg and .txt files from source_path to destination_path recursively.
+This will move .jpg and .txt files from source_path to destination_path recursively with preserving the folder path structure which was in the source in the destination, with setting the files limit to 100 and the maxmium size to 500mb
 
 
+- `--source, -s`: The path to the source directory (required).
+- `--destination, -d`: The path to the destination directory (required).
+- `--file-types, -f`: Specify file types to include (e.g., .jpg, .txt) (required).
+- `--recursive, -r`: Recursively copy files from subdirectories (default: false).
+- `--preserve-path, -pp`: Maintain the same directory structure in the destination (default: false).
+- `--file-cnt-limit, -cl`: Limit the number of files to operate on (default: 1000).
+- `--file-size-limit, -sl`: Limit the total size of files to operate in MB (default: 500).
 
+#### Opening UI
+
+```bash
+
+node index.js ui
+
+
+```
+
+The ui command in this Node.js script provides an interactive user interface for performing file operations like copying or cutting. It leverages the inquirer package to guide users through a series of prompts, collecting necessary inputs such as source and destination directories, file types (with options for predefined or custom types), and settings like recursion, post-operation deletion, and preservation of directory structure. The command also includes validation checks to ensure correct input and defaults for file count and size limits. This feature is designed for ease of use, catering to both novice and advanced users who need a straightforward way to manage file operations.
   
 
 ### Contributing Section
