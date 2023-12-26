@@ -1,10 +1,19 @@
 {
   "name": "z-file-truck-node-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Z-file-truck-node-cli is an innovative Node.js command-line tool, expertly designed for efficient and effective file management. Embodying the dynamism of a 'file truck', this application specializes in transporting (copying and cutting) files with precision and flexibility. It caters to a variety of needs, including the handling of specific file types (such as .jpg, .txt, .pdf) and executing operations in a recursive manner through subdirectories. One of its standout features is the optional deletion of source files post-operation, streamlining file transfers and management tasks. Z-file-truck-node-cli is the go-to solution for developers, system administrators, and digital professionals seeking a robust, command-line-based approach to reorganizing and maintaining file systems. It combines simplicity with power, offering an intuitive interface for managing complex file operations effortlessly.",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js ui",
+    "bundle:rollup": "rollup -c --bundleConfigAsCjs",
+    "pkg:win": "npx pkg dist/bundle.js --targets latest-win-x64 -o build/win/bin/ztruck",
+    "pkg:linux": "npx pkg dist/bundle.js --targets latest-linux-x64 -o build/linux/bin/ztruck",
+    "pkg:mac": "npx pkg dist/bundle.js --targets latest-macos-x64 -o build/mac/bin/ztruck",
+    "build": "npm run bundle:rollup && npm run pkg:win && npm run pkg:linux && npm run pkg:mac"
+  },
+  "bin": {
+    "ztruck": "index.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +27,16 @@
   "license": "MIT",
   "dependencies": {
     "file-type": "^18.7.0",
+    "inquirer": "^8.0.0",
     "ora": "^7.0.1",
     "yargs": "^17.7.2"
   },
-  "type": "module"
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.9.1"
+  },
+  "engines": {
+    "node": ">=18.19.0"
+  }
 }

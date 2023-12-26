@@ -1,6 +1,6 @@
-import fs from 'fs/promises';
+const fs = require('fs').promises;
 
-export async function cutFile(src, dest) {
+async function cutFile(src, dest) {
     try {
         await fs.rename(src, dest);
     } catch (err) {
@@ -9,7 +9,7 @@ export async function cutFile(src, dest) {
     }
 }
 
-export async function copyFile(src, dest) {
+async function copyFile(src, dest) {
     try {
         await fs.copyFile(src, dest);
     } catch (err) {
@@ -18,7 +18,7 @@ export async function copyFile(src, dest) {
     }
 }
 
-export async function deleteFile(src) {
+async function deleteFile(src) {
     try {
         await fs.unlink(src);
     } catch (err) {
@@ -27,7 +27,7 @@ export async function deleteFile(src) {
     }
 }
 
-export async function fileExists(filePath) {
+async function fileExists(filePath) {
     try {
         await fs.access(filePath, fs.constants.F_OK);
         return true;
@@ -37,4 +37,4 @@ export async function fileExists(filePath) {
     }
 }
 
-export default { cutFile, copyFile, deleteFile, fileExists }
+module.exports = { cutFile, copyFile, deleteFile, fileExists }

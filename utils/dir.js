@@ -1,7 +1,7 @@
-import fs from 'fs/promises';
-import path from 'path';
+const fs = require('fs').promises;
+const path = require('path');
 
-export async function createParentDir(filePath) {
+async function createParentDir(filePath) {
     try {
         await fs.mkdir(path.dirname(filePath), { recursive: true });
         // Additional logic after successfully creating the directory
@@ -13,4 +13,4 @@ export async function createParentDir(filePath) {
 
 
 
-export default { createParentDir };
+module.exports = { createParentDir };
