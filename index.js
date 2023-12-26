@@ -93,15 +93,16 @@ const argv = yargs(hideBin(process.argv))
                 },
                 {
                     type: 'confirm',
-                    name: 'postDelete',
-                    message: 'Do you want to delete source files after copying?',
-                    when: answers => answers.action === 'Copy',
+                    name: 'preservePath',
+                    when: answers => answers.recursive,
+                    message: 'Do you want to preserve the directory structure in the destination as it was in the source?',
                     default: false,
                 },
                 {
                     type: 'confirm',
-                    name: 'preservePath',
-                    message: 'Do you want to preserve the directory structure in the destination as it was in the source?',
+                    name: 'postDelete',
+                    message: 'Do you want to delete source files after copying?',
+                    when: answers => answers.action === 'Copy',
                     default: false,
                 },
                 {
