@@ -6,7 +6,7 @@ async function handleCutFiles(sourcePath, destinationPath, fileTypes, recursive 
         validatePaths(sourcePath, destinationPath);
         fileTypes = validateFileTypes(fileTypes);
         await cutFiles(sourcePath, destinationPath, fileTypes, recursive, preservePath, fileCntLimit, fileSizeLimit);
-        process.exit(0);
+        // process.exit(0);
     } catch (error) {
         console.error(error);
         process.exit(1);

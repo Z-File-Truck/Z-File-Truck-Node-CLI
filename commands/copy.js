@@ -6,7 +6,7 @@ async function handleCopyFiles(sourcePath, destinationPath, fileTypes, recursive
         validatePaths(sourcePath, destinationPath);
         fileTypes = validateFileTypes(fileTypes);
         await copyFiles(sourcePath, destinationPath, fileTypes, recursive, postDelete, preservePath, fileCntLimit, fileSizeLimit);
-        process.exit(0);
+        // process.exit(0);
     } catch (error) {
         console.error(error);
         process.exit(1);
