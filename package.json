@@ -10,13 +10,11 @@
     "pkg:cmd:linux": "npx pkg dist/cmd --targets latest-linux-x64 -o build/linux/bin/ztruck",
     "pkg:cmd:mac": "npx pkg dist/cmd --targets latest-macos-x64 -o build/mac/bin/ztruck",
     "build:cmd": "npm run bundle:rollup:cmd && npm run pkg:cmd:win && npm run pkg:cmd:linux && npm run pkg:cmd:mac",
-
     "bundle:rollup:exec": "rollup -c rollup.config.exec.js --bundleConfigAsCjs",
     "pkg:exec:win": "npx pkg dist/exec/exec.js --targets latest-win-x64 -o build/win/ztruck",
     "pkg:exec:linux": "npx pkg dist/exec/exec.js --targets latest-linux-x64 -o build/linux/ztruck",
     "pkg:exec:mac": "npx pkg dist/exec/exec.js --targets latest-macos-x64 -o build/mac/ztruck",
     "build:exec": "npm run bundle:rollup:exec && npm run pkg:exec:win && npm run pkg:exec:linux && npm run pkg:exec:mac",
-
     "build": "npm run build:cmd && npm run build:exec"
   },
   "bin": {
@@ -24,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Z-File-Truck/Z-File-Truck-Node-CLI.git"
+    "url": "git+https://github.com/Z-File-Truck/Z-File-Truck-Node-CLI.git"
   },
   "author": {
     "name": "Ahmed Zhra",
