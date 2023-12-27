@@ -2,18 +2,25 @@
   "name": "z-file-truck-node-cli",
   "version": "1.0.1",
   "description": "Z-file-truck-node-cli is an innovative Node.js command-line tool, expertly designed for efficient and effective file management. Embodying the dynamism of a 'file truck', this application specializes in transporting (copying and cutting) files with precision and flexibility. It caters to a variety of needs, including the handling of specific file types (such as .jpg, .txt, .pdf) and executing operations in a recursive manner through subdirectories. One of its standout features is the optional deletion of source files post-operation, streamlining file transfers and management tasks. Z-file-truck-node-cli is the go-to solution for developers, system administrators, and digital professionals seeking a robust, command-line-based approach to reorganizing and maintaining file systems. It combines simplicity with power, offering an intuitive interface for managing complex file operations effortlessly.",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js ui",
-    "bundle:rollup": "rollup -c --bundleConfigAsCjs",
-    "pkg:win": "npx pkg dist/bundle.js --targets latest-win-x64 -o build/win/bin/ztruck",
-    "pkg:linux": "npx pkg dist/bundle.js --targets latest-linux-x64 -o build/linux/bin/ztruck",
-    "pkg:mac": "npx pkg dist/bundle.js --targets latest-macos-x64 -o build/mac/bin/ztruck",
-    "build": "npm run bundle:rollup && npm run pkg:win && npm run pkg:linux && npm run pkg:mac"
+    "bundle:rollup:cmd": "rollup -c rollup.config.cmd.js --bundleConfigAsCjs && xcopy /Y package.json dist\\cmd",
+    "pkg:cmd:win": "npx pkg dist/cmd --targets latest-win-x64 -o build/win/bin/ztruck",
+    "pkg:cmd:linux": "npx pkg dist/cmd --targets latest-linux-x64 -o build/linux/bin/ztruck",
+    "pkg:cmd:mac": "npx pkg dist/cmd --targets latest-macos-x64 -o build/mac/bin/ztruck",
+    "build:cmd": "npm run bundle:rollup:cmd && npm run pkg:cmd:win && npm run pkg:cmd:linux && npm run pkg:cmd:mac",
+
+    "bundle:rollup:exec": "rollup -c rollup.config.exec.js --bundleConfigAsCjs",
+    "pkg:exec:win": "npx pkg dist/exec/exec.js --targets latest-win-x64 -o build/win/ztruck",
+    "pkg:exec:linux": "npx pkg dist/exec/exec.js --targets latest-linux-x64 -o build/linux/ztruck",
+    "pkg:exec:mac": "npx pkg dist/exec/exec.js --targets latest-macos-x64 -o build/mac/ztruck",
+    "build:exec": "npm run bundle:rollup:exec && npm run pkg:exec:win && npm run pkg:exec:linux && npm run pkg:exec:mac",
+
+    "build": "npm run build:cmd && npm run build:exec"
   },
   "bin": {
-    "ztruck": "index.js"
+    "ztruck": "cmd.js"
   },
   "repository": {
     "type": "git",

@@ -3,9 +3,9 @@ import commonjs from '@rollup/plugin-commonjs';
 // import babel from 'rollup-plugin-babel';
 
 export default {
-  input: 'index.js', // Update with your entry file
+  input: 'cmd.js', // Update with your entry file
   output: {
-    file: 'dist/bundle.js', // Update with your desired output file
+    file: 'dist/cmd/cmd.js', // Update with your desired output file
     inlineDynamicImports: true,
     format: 'cjs', // CommonJS format for Node.js compatibility
   },
