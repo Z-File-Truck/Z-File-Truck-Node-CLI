@@ -64,9 +64,9 @@ const xAud = [
 const allFormats = ['*'];
 
 const CONSTANTS = {
-    DEFAULT_FILES_COUNT_LIMIT: 1000,
+    DEFAULT_FILES_COUNT_LIMIT: Infinity,
+    DEFAULT_MB_SIZE_LIMIT: Infinity,
     MERGABYTES_PER_SECOND: 1,
-    DEFAULT_MB_SIZE_LIMIT: 500,
     DEFAULT_CONCURRENCY_LIMIT: 5,
     QUICK_FILE_TYPES: {
         'all': {
